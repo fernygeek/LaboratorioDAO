@@ -37,7 +37,7 @@
             border: 1px solid #e1e5eb;
             border-radius: 4px;
         }
-        table { width: 100%; border-collapse: collapse; min-width: 720px; }
+        table { width: 100%; border-collapse: collapse; min-width: 900px; }
         th, td { padding: 16px 18px; text-align: left; border-bottom: 1px solid #e8ebf0; }
         th {
             background-color: #f5f5f5;
@@ -142,6 +142,8 @@
                     <tr>
                         <th>Nombre</th>
                         <th>Correo</th>
+                        <th>Departamento</th>
+                        <th>Piso</th>
                         <th>Perfil</th>
                         <th>Acciones</th>
                     </tr>
@@ -151,6 +153,22 @@
                         <tr>
                             <td><c:out value="${u.nombre}" /></td>
                             <td><c:out value="${u.correo}" /></td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${u.perfil == 'Empleado' and not empty u.departamento}">
+                                        <c:out value="${u.departamento.nombre}" />
+                                    </c:when>
+                                    <c:otherwise>-</c:otherwise>
+                                </c:choose>
+                            </td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${u.perfil == 'Empleado' and not empty u.departamento}">
+                                        <c:out value="${u.departamento.numeroPiso}" />
+                                    </c:when>
+                                    <c:otherwise>-</c:otherwise>
+                                </c:choose>
+                            </td>
                             <td><span class="profile-badge"><c:out value="${u.perfil}" /></span></td>
                             <td class="actions-cell">
                                 <a class="btn btn-warning" href="${pageContext.request.contextPath}/gestionar?ruta=update&idUsuario=${u.idUsuario}">Actualizar</a>
@@ -160,7 +178,7 @@
                     </c:forEach>
                     <c:if test="${empty listaUsuarios}">
                         <tr class="empty-row">
-                            <td colspan="4" style="text-align:center;">No hay usuarios registrados.</td>
+                            <td colspan="6" style="text-align:center;">No hay usuarios registrados.</td>
                         </tr>
                     </c:if>
                 </tbody>
